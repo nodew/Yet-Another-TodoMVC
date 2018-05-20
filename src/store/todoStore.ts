@@ -1,26 +1,53 @@
-import { observable, action } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import TodoItem from '../models/TodoItem';
+import db from '../common/database';
 
 class TodoStore {
-  @observable todos: TodoItem[];
+  @observable public todos: TodoItem[];
 
   constructor() {
     this.todos = [];
+    this.getTodosFromDB();
   }
 
-  @action
+  getTodosFromDB() {
+    db.getAll().then(todos => {
+      runInAction(() => {
+        this.todos = todos.map((todo) => new TodoItem(
+          todo.title,
+          todo.completed,
+          todo.uuid,
+          todo.createdAt,
+          todo.updatedAt
+        ));
+      });
+    });
+  }
+
   addTodo(title: string) {
-    this.todos.push(new TodoItem(title));
+    const newTodo = new TodoItem(title);
+    db.set(newTodo.uuid, newTodo).then(() => {
+      runInAction(() => {
+        this.todos.push(newTodo);
+      });
+    });
   }
 
-  @action
   deleteTodo(uuid: string) {
-    this.todos = this.todos.filter(todo => todo.uuid !== uuid);
+    db.delete(uuid).then(() => {
+      runInAction(() => {
+        this.todos = this.todos.filter(todo => todo.uuid !== uuid);
+      });
+    });
   }
 
-  @action
   removeCompleted() {
-    this.todos = this.todos.filter(todo => !todo.completed);
+    const completedTodos = this.todos.filter(todo => todo.completed);
+    Promise.all(completedTodos.map(todo => db.delete(todo.uuid))).then(() => {
+      runInAction(() => {
+        this.todos = this.todos.filter(todo => !todo.completed);
+      });
+    });
   }
 
   @action
@@ -28,6 +55,16 @@ class TodoStore {
     const todo = this.todos.find(todo => todo.uuid === uuid);
     if (todo) {
       todo.toggleCompleted();
+      db.set(uuid, todo);
+    }
+  }
+
+  @action
+  updateTodo(uuid: string, title: string) {
+    const todo = this.todos.find(todo => todo.uuid === uuid);
+    if (todo) {
+      todo.updateTitle(title);
+      db.set(uuid, todo);
     }
   }
 }

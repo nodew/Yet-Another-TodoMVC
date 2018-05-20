@@ -9,13 +9,19 @@ export default class TodoItem {
   @observable createdAt: number;
   @observable updatedAt: number;
 
-  constructor(title: string, completed: boolean = false) {
+  constructor(
+    title: string,
+    completed: boolean = false,
+    uuid?:string,
+    createdAt?:number,
+    updatedAt?:number
+  ) {
     const now = Date.now();
     this.title = title;
     this.completed = completed;
-    this.uuid = uuidGenerator();
-    this.createdAt = now;
-    this.updatedAt = now;
+    this.uuid = uuid || uuidGenerator();
+    this.createdAt = createdAt || now;
+    this.updatedAt = updatedAt || now;
   }
 
   @action

@@ -33,6 +33,8 @@ export default class TodoListViewModel implements ITodoListViewModel {
   }
 
   @computed get todoVms() {
-    return this.todos.map((todo) => new TodoItemViewModel(todo))
+    return this.todos
+      .sort((a, b) => a.createdAt - b.createdAt)
+      .map((todo) => new TodoItemViewModel(todo));
   }
 }

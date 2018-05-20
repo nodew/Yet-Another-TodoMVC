@@ -8,6 +8,9 @@ export interface ITodoItemViewModel {
   editText: string;
   toggleTodo(): void;
   deleteTodo(): void;
+  toggleEditing(status: boolean): void;
+  updateEditTxt(input: string): void;
+  updateTodo(): void;
 }
 
 export default class TodoItemViewModel implements ITodoItemViewModel {
@@ -29,5 +32,21 @@ export default class TodoItemViewModel implements ITodoItemViewModel {
   @action
   deleteTodo() {
     todoStore.deleteTodo(this.todoItem.uuid);
+  }
+
+  @action
+  toggleEditing(status: boolean) {
+    this.editing = status;
+  }
+
+  @action
+  updateEditTxt(input: string) {
+    this.editText = input;
+  }
+
+  @action
+  updateTodo() {
+    this.toggleEditing(false);
+    todoStore.updateTodo(this.todoItem.uuid, this.editText);
   }
 }

@@ -4,26 +4,31 @@ import classNames from 'classnames';
 import { ITodoItemViewModel } from './TodoItemViewModel';
 import IViewModel from '../../IViewModel';
 
+const ENTER_KEY = 13;
+
 @observer
 export default class TodoItem extends React.Component<IViewModel<ITodoItemViewModel>> {
-  handleEdit() {
-
+  handleEdit = () => {
+    this.props.vm.toggleEditing(true);
   }
 
+  handleBlur = () => {
+    this.props.vm.updateTodo();
+  }
   handleDestroy = () => {
     this.props.vm.deleteTodo();
   }
 
-  handleSubmit() {
-
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.vm.updateEditTxt(e.target.value)
   }
 
-  handleChange() {
-
-  }
-
-  handleKeyDown() {
-
+  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode !== ENTER_KEY) {
+      return;
+    }
+    e.preventDefault();
+    this.props.vm.updateTodo();
   }
 
   render() {
@@ -50,7 +55,7 @@ export default class TodoItem extends React.Component<IViewModel<ITodoItemViewMo
           ref="editField"
           className="edit"
           value={vm.editText}
-          onBlur={this.handleSubmit}
+          onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
         />
