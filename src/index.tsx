@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { render } from 'react-dom';
 
-import App from './App';
-import AppViewModel from './AppViewModel';
+import App from './components/app/App';
+import AppViewModel from './components/app/AppViewModel';
 
 const mountNode = document.querySelector('#app');
 

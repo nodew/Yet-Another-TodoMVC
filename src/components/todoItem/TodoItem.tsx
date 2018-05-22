@@ -15,6 +15,7 @@ export default class TodoItem extends React.Component<IViewModel<ITodoItemViewMo
   handleBlur = () => {
     this.props.vm.updateTodo();
   }
+
   handleDestroy = () => {
     this.props.vm.deleteTodo();
   }

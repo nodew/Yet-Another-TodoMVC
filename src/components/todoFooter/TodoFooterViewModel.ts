@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { ITodoListViewModel } from '../todoList/TodoListViewModel';
-import { IAppViewModel } from '../../AppViewModel';
+import { IAppViewModel } from '../app/AppViewModel';
 import historyStore from '../../store/historyStore';
 import todoStore from '../../store/todoStore';
 

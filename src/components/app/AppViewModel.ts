@@ -1,9 +1,9 @@
 import { observable, action, computed } from 'mobx';
-import TodoListViewModel, { ITodoListViewModel } from './components/todoList/TodoListViewModel';
-import TodoInputViewModel, { ITodoInputViewModel } from './components/todoInput/TodoInputViewModel';
-import TodoFooterViewModel, { ITodoFooterViewModel } from './components/todoFooter/TodoFooterViewModel';
-import historyStore from './store/historyStore';
-import todoStore from './store/todoStore';
+import TodoListViewModel, { ITodoListViewModel } from '../todoList/TodoListViewModel';
+import TodoInputViewModel, { ITodoInputViewModel } from '../todoInput/TodoInputViewModel';
+import TodoFooterViewModel, { ITodoFooterViewModel } from '../todoFooter/TodoFooterViewModel';
+import historyStore from '../../store/historyStore';
+import todoStore from '../../store/todoStore';
 
 export interface IAppViewModel {
   todoListVm: ITodoListViewModel;

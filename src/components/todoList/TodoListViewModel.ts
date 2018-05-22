@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import TodoItemViewModel, { ITodoItemViewModel } from '../todoItem/TodoItemViewModel';
-import { IAppViewModel } from '../../AppViewModel';
+import { IAppViewModel } from '../app/AppViewModel';
 import todoStore from '../../store/todoStore';
 import TodoItem from '../../models/TodoItem';
 
@@ -34,7 +34,7 @@ export default class TodoListViewModel implements ITodoListViewModel {
 
   @computed get todoVms() {
     return this.todos
-      .sort((a, b) => a.createdAt - b.createdAt)
+      .sort((a, b) => b.createdAt - a.createdAt)
       .map((todo) => new TodoItemViewModel(todo));
   }
 }

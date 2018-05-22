@@ -1,6 +1,8 @@
 import { observable, action } from 'mobx';
-import TodoItem from '../../models/TodoItem';
+import TodoItem, { ITodoItem } from '../../models/TodoItem';
 import todoStore from '../../store/todoStore';
+import db from '../../common/database';
+import history from '../../common/history';
 
 export interface ITodoItemViewModel {
   todoItem: TodoItem
@@ -26,7 +28,13 @@ export default class TodoItemViewModel implements ITodoItemViewModel {
 
   @action
   toggleTodo() {
-    todoStore.toggleTodo(this.todoItem.uuid);
+    db.get(this.todoItem.uuid).then(todo => {
+      if (todo) {
+        todo.completed = !todo.completed;
+        db.set(this.todoItem.uuid, todo);
+        this.todoItem.toggleCompleted();
+      }
+    })
   }
 
   @action
@@ -47,6 +55,12 @@ export default class TodoItemViewModel implements ITodoItemViewModel {
   @action
   updateTodo() {
     this.toggleEditing(false);
-    todoStore.updateTodo(this.todoItem.uuid, this.editText);
+    db.get(this.todoItem.uuid).then(todo => {
+      if (todo) {
+        todo.title = this.editText;
+        db.set(this.todoItem.uuid, todo);
+        this.todoItem.updateTitle(this.editText);
+      }
+    });
   }
 }

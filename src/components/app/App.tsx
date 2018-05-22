@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import TodoList from './components/todoList/TodoList';
-import TodoInput from './components/todoInput/TodoInput';
-import TodoFooter from './components/todoFooter/TodoFooter';
+import TodoList from '../todoList/TodoList';
+import TodoInput from '../todoInput/TodoInput';
+import TodoFooter from '../todoFooter/TodoFooter';
 import { IAppViewModel } from './AppViewModel';
-import IViewModel from './IViewModel';
+import IViewModel from '../../IViewModel';
 
 @observer
 export default class App extends React.Component<IViewModel<IAppViewModel>> {

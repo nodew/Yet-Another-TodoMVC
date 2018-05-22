@@ -2,7 +2,15 @@ import { observable, action } from 'mobx';
 
 import uuidGenerator from '../utils/uuidGenerator';
 
-export default class TodoItem {
+export interface ITodoItem {
+  title: string;
+  completed: boolean;
+  uuid: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export default class TodoItem implements ITodoItem {
   @observable title: string;
   @observable completed: boolean;
   @observable uuid: string;
@@ -43,6 +51,26 @@ export default class TodoItem {
     if (!this.completed) {
       this.completed = true;
       this.updatedAt = now;
+    }
+  }
+
+  static fromJS(todo: ITodoItem) {
+    return new TodoItem(
+      todo.title,
+      todo.completed,
+      todo.uuid,
+      todo.createdAt,
+      todo.updatedAt
+    );
+  }
+
+  toJS(): ITodoItem {
+    return {
+      title: this.title,
+      completed: this.completed,
+      uuid: this.uuid,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
   }
 }
