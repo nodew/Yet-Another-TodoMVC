@@ -4,6 +4,7 @@ import TodoInputViewModel, { ITodoInputViewModel } from '../todoInput/TodoInputV
 import TodoFooterViewModel, { ITodoFooterViewModel } from '../todoFooter/TodoFooterViewModel';
 import historyStore from '../../store/historyStore';
 import todoStore from '../../store/todoStore';
+import db from '../../common/database';
 
 export interface IAppViewModel {
   todoListVm: ITodoListViewModel;
@@ -46,7 +47,13 @@ export default class AppViewModel implements IAppViewModel {
   @action
   toggleAll() {
     this.todoListVm.todos.forEach(todo => {
-      todo.completeTodo();
+      db.get(todo.uuid).then(data => {
+        if (!data.completed) {
+          data.completed = true;
+          db.set(data.uuid, data);
+          todo.completeTodo();
+        }
+      });
     });
   }
 }
