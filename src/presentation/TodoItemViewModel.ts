@@ -1,8 +1,8 @@
 import { observable, action } from 'mobx';
-import TodoItem, { ITodoItem } from '../../models/TodoItem';
-import todoStore from '../../store/todoStore';
-import db from '../../common/database';
-import history from '../../common/history';
+import TodoItem, { ITodoItem } from '../core/domain/TodoItem';
+import todoStore from '../core/store/todoStore';
+import db from '../common/database';
+import history from '../common/history';
 
 export interface ITodoItemViewModel {
   todoItem: TodoItem

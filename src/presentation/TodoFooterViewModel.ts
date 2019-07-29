@@ -1,8 +1,8 @@
 import { observable, action, computed } from 'mobx';
-import { ITodoListViewModel } from '../todoList/TodoListViewModel';
-import { IAppViewModel } from '../app/AppViewModel';
-import historyStore from '../../store/historyStore';
-import todoStore from '../../store/todoStore';
+import { ITodoListViewModel } from './TodoListViewModel';
+import { IAppViewModel } from './AppViewModel';
+import historyStore from '../core/store/historyStore';
+import todoStore from '../core/store/todoStore';
 
 export interface ITodoFooterViewModel {
   selected: 'ALL' | 'ACTIVE' | 'COMPLETED';

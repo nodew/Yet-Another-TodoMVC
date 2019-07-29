@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
-import { ITodoFooterViewModel } from './TodoFooterViewModel';
-import IViewModel from '../../IViewModel';
+import { ITodoFooterViewModel } from '../../presentation/TodoFooterViewModel';
+import IViewModel from '../../presentation/IViewModel';
 import history from '../../common/history';
 
 @observer

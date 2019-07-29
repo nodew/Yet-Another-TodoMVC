@@ -1,8 +1,8 @@
 import { observable, action, computed } from 'mobx';
-import TodoItemViewModel, { ITodoItemViewModel } from '../todoItem/TodoItemViewModel';
-import { IAppViewModel } from '../app/AppViewModel';
-import todoStore from '../../store/todoStore';
-import TodoItem from '../../models/TodoItem';
+import TodoItemViewModel, { ITodoItemViewModel } from './TodoItemViewModel';
+import { IAppViewModel } from './AppViewModel';
+import todoStore from '../core/store/todoStore';
+import TodoItem from '../core/domain/TodoItem';
 
 export interface ITodoListViewModel {
   appVm: IAppViewModel;

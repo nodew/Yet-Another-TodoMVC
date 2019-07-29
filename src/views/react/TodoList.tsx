@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import TodoItem from '../todoItem/TodoItem';
-import { ITodoListViewModel } from './TodoListViewModel';
-import IViewModel from '../../IViewModel';
+import TodoItem from './TodoItem';
+import { ITodoListViewModel } from '../../presentation/TodoListViewModel';
+import IViewModel from '../../presentation/IViewModel';
 
 @observer
 export default class TodoList extends React.Component<IViewModel<ITodoListViewModel>> {

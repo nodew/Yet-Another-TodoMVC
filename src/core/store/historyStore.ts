@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import { Location } from 'history';
-import history from '../common/history';
+import history from '../../common/history';
 
 class HistroyStore {
   @observable public search: string;

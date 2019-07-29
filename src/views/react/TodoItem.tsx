@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
-import { ITodoItemViewModel } from './TodoItemViewModel';
-import IViewModel from '../../IViewModel';
+import { ITodoItemViewModel } from '../../presentation/TodoItemViewModel';
+import IViewModel from '../../presentation/IViewModel';
 
 const ENTER_KEY = 13;
 

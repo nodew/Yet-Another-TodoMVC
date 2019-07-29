@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { ITodoInputViewModel } from './TodoInputViewModel';
-import IViewModel from '../../IViewModel';
+import { ITodoInputViewModel } from '../../presentation/TodoInputViewModel';
+import IViewModel from '../../presentation/IViewModel';
 
 const ENTER_KEY = 13;
 

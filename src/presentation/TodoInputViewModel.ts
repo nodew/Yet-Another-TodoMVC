@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
-import { ITodoListViewModel } from '../todoList/TodoListViewModel';
-import TodoItemViewModel from '../todoItem/TodoItemViewModel';
-import todoStore from '../../store/todoStore';
+import { ITodoListViewModel } from './TodoListViewModel';
+import TodoItemViewModel from './TodoItemViewModel';
+import todoStore from '../core/store/todoStore';
 
 export interface ITodoInputViewModel {
   input: string;

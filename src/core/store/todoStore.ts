@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
-import TodoItem from '../models/TodoItem';
-import db from '../common/database';
+import TodoItem from '../domain/TodoItem';
+import db from '../../common/database';
 
 class TodoStore {
   @observable public todos: TodoItem[];
