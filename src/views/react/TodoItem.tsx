@@ -1,51 +1,50 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
 import classNames from 'classnames';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import { ITodoItemViewModel } from '../../presentation/TodoItemViewModel';
-import IViewModel from '../../presentation/IViewModel';
+import { IViewFor } from './IViewFor';
 
 const ENTER_KEY = 13;
 
 @observer
-export default class TodoItem extends React.Component<IViewModel<ITodoItemViewModel>> {
-  handleEdit = () => {
-    this.props.vm.toggleEditing(true);
+export default class TodoItem extends React.Component<IViewFor<ITodoItemViewModel>> {
+  public handleEdit = () => {
+    this.props.viewModel.toggleEditing(true);
   }
 
-  handleBlur = () => {
-    this.props.vm.updateTodo();
+  public handleBlur = () => {
+    this.props.viewModel.updateTodo();
   }
 
-  handleDestroy = () => {
-    this.props.vm.deleteTodo();
+  public handleDestroy = () => {
+    this.props.viewModel.deleteTodo();
   }
 
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.vm.updateEditTxt(e.target.value)
+  public handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.viewModel.updateEditTxt(e.target.value)
   }
 
-  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  public handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode !== ENTER_KEY) {
       return;
     }
     e.preventDefault();
-    this.props.vm.updateTodo();
+    this.props.viewModel.updateTodo();
   }
 
-  render() {
-    const { vm } = this.props;
-    const { completed, title } = vm.todoItem;
+  public render() {
+    const { completed, title } = this.props.viewModel.todoItem;
     return (
       <li className={classNames({
         completed,
-        editing: vm.editing
+        editing: this.props.viewModel.editing
       })}>
         <div className="view">
           <input
             className="toggle"
             type="checkbox"
             checked={completed}
-            onChange={() => vm.toggleTodo()}
+            onChange={() => this.props.viewModel.toggleTodo()}
           />
           <label onDoubleClick={this.handleEdit}>
             {title}
@@ -55,7 +54,7 @@ export default class TodoItem extends React.Component<IViewModel<ITodoItemViewMo
         <input
           ref="editField"
           className="edit"
-          value={vm.editText}
+          value={this.props.viewModel.editText}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}

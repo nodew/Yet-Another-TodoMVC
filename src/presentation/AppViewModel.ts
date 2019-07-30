@@ -1,59 +1,43 @@
-import { observable, action, computed } from 'mobx';
-import TodoListViewModel, { ITodoListViewModel } from './TodoListViewModel';
-import TodoInputViewModel, { ITodoInputViewModel } from './TodoInputViewModel';
+import { inject, injectable } from 'inversify';
+import { action, computed } from 'mobx';
+import TodoStore from '../core/store/todoStore';
+import { TYPES } from '../types';
 import TodoFooterViewModel, { ITodoFooterViewModel } from './TodoFooterViewModel';
-import historyStore from '../core/store/historyStore';
-import todoStore from '../core/store/todoStore';
-import db from '../common/database';
+import TodoInputViewModel, { ITodoInputViewModel } from './TodoInputViewModel';
+import TodoListViewModel, { ITodoListViewModel } from './TodoListViewModel';
 
 export interface IAppViewModel {
-  todoListVm: ITodoListViewModel;
-  todoInputVm: ITodoInputViewModel;
-  todoFooterVm: ITodoFooterViewModel;
-  selected: 'ALL' | 'ACTIVE' | 'COMPLETED';
-  toggleAllActive: boolean;
+  todoListViewModel: ITodoListViewModel;
+  todoInputViewModel: ITodoInputViewModel;
+  todoFooterViewModel: ITodoFooterViewModel;
+  showToggleAllActive: boolean;
   toggleAll(): void;
 }
 
-
+@injectable()
 export default class AppViewModel implements IAppViewModel {
-  todoListVm: TodoListViewModel;
-  todoInputVm: TodoInputViewModel;
-  todoFooterVm: TodoFooterViewModel;
+  @inject(TYPES.TodoListViewModel)
+  public todoListViewModel!: ITodoListViewModel;
 
-  constructor() {
-    const todoListVm = new TodoListViewModel(this);
-    this.todoListVm = todoListVm;
-    this.todoInputVm = new TodoInputViewModel();
-    this.todoFooterVm = new TodoFooterViewModel(todoListVm, this);
-  }
+  @inject(TYPES.TodoInputViewModel)
+  public todoInputViewModel!: ITodoInputViewModel;
 
-  @computed get selected() {
-    const hash = historyStore.hash;
-    switch (hash) {
-      case '#/completed':
-        return 'COMPLETED';
-      case '#/active':
-        return 'ACTIVE';
-      default:
-        return 'ALL'
-    }
-  }
+  @inject(TYPES.TodoFooterViewModel)
+  public todoFooterViewModel!: ITodoFooterViewModel;
 
-  @computed get toggleAllActive() {
-    return this.todoListVm.todos.filter(todo => !todo.completed).length > 0;
+  @inject(TYPES.TodoStore)
+  private todoStore!: TodoStore;
+
+  @computed get showToggleAllActive() {
+    return this.todoListViewModel.todoList.filter(todo => !todo.completed).length > 0;
   }
 
   @action
-  toggleAll() {
-    this.todoListVm.todos.forEach(todo => {
-      db.get(todo.uuid).then(data => {
-        if (!data.completed) {
-          data.completed = true;
-          db.set(data.uuid, data);
-          todo.completeTodo();
-        }
-      });
+  public toggleAll() {
+    this.todoListViewModel.todoList.forEach(item => {
+      if (!item.completed) {
+        this.todoStore.completeTodo(item);
+      }
     });
   }
 }

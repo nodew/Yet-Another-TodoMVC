@@ -1,30 +1,29 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 import { ITodoInputViewModel } from '../../presentation/TodoInputViewModel';
-import IViewModel from '../../presentation/IViewModel';
+import { IViewFor } from './IViewFor';
 
 const ENTER_KEY = 13;
 
 @observer
-export default class TodoInput extends React.Component<IViewModel<ITodoInputViewModel>> {
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.vm.updateInput(e.target.value)
+export default class TodoInput extends React.Component<IViewFor<ITodoInputViewModel>> {
+  public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.viewModel.updateInput(e.target.value)
   }
 
-  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  public handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode !== ENTER_KEY) {
       return;
     }
     e.preventDefault();
-    this.props.vm.addTodo();
+    this.props.viewModel.addTodo();
   }
 
-  render() {
-    const { vm } = this.props;
+  public render() {
     return (
       <input
         className="new-todo"
-        value={vm.input}
+        value={this.props.viewModel.input}
         placeholder="What need to be done?"
         onChange={this.handleInputChange}
         onKeyDown={this.handleKeyDown}

@@ -1,19 +1,18 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
-import TodoItem from './TodoItem';
+import * as React from 'react';
 import { ITodoListViewModel } from '../../presentation/TodoListViewModel';
-import IViewModel from '../../presentation/IViewModel';
+import { IViewFor } from './IViewFor';
+import TodoItem from './TodoItem';
 
 @observer
-export default class TodoList extends React.Component<IViewModel<ITodoListViewModel>> {
-  renderTodoList() {
-    const { todoVms } = this.props.vm;
-    return todoVms.map((todoVm) => (
-      <TodoItem vm={todoVm} key={todoVm.todoItem.uuid} />
+export default class TodoList extends React.Component<IViewFor<ITodoListViewModel>> {
+  public renderTodoList() {
+    return this.props.viewModel.todoItemViewModels.map((todoViewModel) => (
+      <TodoItem viewModel={todoViewModel} key={todoViewModel.todoItem.uuid} />
     ));
   }
 
-  render() {
+  public render() {
     return (
       <div className="todo-list">
         {this.renderTodoList()}

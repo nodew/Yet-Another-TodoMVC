@@ -1,7 +1,7 @@
-import { action, observable } from 'mobx';
-import { ITodoListViewModel } from './TodoListViewModel';
-import TodoItemViewModel from './TodoItemViewModel';
-import todoStore from '../core/store/todoStore';
+import { inject, injectable } from 'inversify';
+import { action, observable, runInAction } from 'mobx';
+import TodoStore, { Filter } from '../core/store/todoStore';
+import { TYPES } from '../types';
 
 export interface ITodoInputViewModel {
   input: string;
@@ -9,25 +9,29 @@ export interface ITodoInputViewModel {
   addTodo(): void;
 }
 
+@injectable()
 export default class TodoInputViewModel implements ITodoInputViewModel {
-  @observable input: string;
 
-  constructor() {
-    this.input = '';
-  }
+  @observable public input: string = "";
+  @inject(TYPES.TodoStore) private todoStore!: TodoStore;
 
   @action
-  updateInput(input: string) {
+  public updateInput(input: string) {
     this.input = input;
   }
 
   @action
-  addTodo() {
+  public async addTodo() {
     if (!this.input) {
       return;
     }
 
-    todoStore.addTodo(this.input);
-    this.updateInput('');
+    await this.todoStore.addTodo(this.input);
+
+    this.updateInput("");
+
+    if (this.todoStore.filter === Filter.COMPLETED) {
+      this.todoStore.changeFilter(Filter.ALL);
+    }
   }
 }

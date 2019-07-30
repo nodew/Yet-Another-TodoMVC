@@ -1,6 +1,6 @@
-import { observable, action } from 'mobx';
 
 import uuidGenerator from '../../utils/uuidGenerator';
+import { observable, action } from 'mobx';
 
 export interface ITodoItem {
   title: string;
@@ -11,11 +11,21 @@ export interface ITodoItem {
 }
 
 export default class TodoItem implements ITodoItem {
-  @observable title: string;
-  @observable completed: boolean;
-  @observable uuid: string;
-  @observable createdAt: number;
-  @observable updatedAt: number;
+
+  public static fromObject(todo: ITodoItem) {
+    return new TodoItem(
+      todo.title,
+      todo.completed,
+      todo.uuid,
+      todo.createdAt,
+      todo.updatedAt
+    );
+  }
+  @observable public title: string;
+  @observable public completed: boolean;
+  @observable public uuid: string;
+  @observable public createdAt: number;
+  @observable public updatedAt: number;
 
   constructor(
     title: string,
@@ -33,44 +43,25 @@ export default class TodoItem implements ITodoItem {
   }
 
   @action
-  updateTitle(title: string) {
+  public updateTitle(title: string) {
     const now = Date.now();
     this.title = title;
     this.updatedAt = now;
   }
 
   @action
-  toggleCompleted() {
+  public toggleCompleted() {
     const now = Date.now();
     this.completed = !this.completed;
     this.updatedAt = now;
   }
 
-  @action completeTodo() {
+  @action
+  public completeTodo() {
     const now = Date.now();
     if (!this.completed) {
       this.completed = true;
       this.updatedAt = now;
-    }
-  }
-
-  static fromJS(todo: ITodoItem) {
-    return new TodoItem(
-      todo.title,
-      todo.completed,
-      todo.uuid,
-      todo.createdAt,
-      todo.updatedAt
-    );
-  }
-
-  toJS(): ITodoItem {
-    return {
-      title: this.title,
-      completed: this.completed,
-      uuid: this.uuid,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
     }
   }
 }

@@ -14,16 +14,20 @@
   "homepage": "https://github.com/nodew/Yet-Another-TodoMVC#readme",
   "description": "",
   "scripts": {
-    "dev": "concurrently \"parcel watch index.html\" \"parcel serve index.html\""
+    "dev:react": "concurrently \"parcel watch ./src/views/react/index.html \" \"parcel serve ./src/views/react/index.html\"",
+    "tslint": "tslint --project ./tsconfig.json --fix"
   },
   "dependencies": {
+    "@types/classnames": "^2.2.9",
     "classnames": "^2.2.5",
     "history": "^4.7.2",
     "idb": "^2.1.1",
+    "inversify": "^5.0.1",
     "mobx": "^4.2.1",
     "mobx-react": "^5.1.2",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/history": "^4.6.2",
@@ -31,7 +35,10 @@
     "@types/react-dom": "^16.0.5",
     "concurrently": "^3.5.1",
     "parcel": "^1.8.1",
+    "prettier": "^1.18.2",
     "stylus": "^0.54.5",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^2.8.3"
   }
 }

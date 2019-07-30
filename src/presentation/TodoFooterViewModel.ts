@@ -1,42 +1,44 @@
-import { observable, action, computed } from 'mobx';
+import { inject, injectable } from 'inversify';
+import { computed, action } from 'mobx';
+import TodoStore, { Filter } from '../core/store/todoStore';
+import { TYPES } from '../types';
 import { ITodoListViewModel } from './TodoListViewModel';
-import { IAppViewModel } from './AppViewModel';
-import historyStore from '../core/store/historyStore';
-import todoStore from '../core/store/todoStore';
 
 export interface ITodoFooterViewModel {
-  selected: 'ALL' | 'ACTIVE' | 'COMPLETED';
-  todoListVm: ITodoListViewModel;
+  filter: Filter;
   count: number;
   showClearBtn: boolean;
+  handleFilterChanged(filter: Filter): void;
   clearCompleted(): void;
 }
 
+@injectable()
 export default class TodoFooterViewModel implements ITodoFooterViewModel {
-  todoListVm: ITodoListViewModel;
-  appVm: IAppViewModel;
+  @inject(TYPES.TodoStore)
+  private todoStore!: TodoStore;
 
-  constructor(
-    todoListVm: ITodoListViewModel,
-    appVm: IAppViewModel
-  ) {
-    this.todoListVm = todoListVm;
-    this.appVm = appVm;
-  }
+  @inject(TYPES.TodoListViewModel)
+  private todoListViewModel!: ITodoListViewModel;
 
-  @computed get selected() {
-    return this.appVm.selected;
+  @computed get filter() {
+    return this.todoStore.filter;
   }
 
   @computed get count() {
-    return this.todoListVm.todos.length;
+    return this.todoListViewModel.todoList.length;;
   }
 
   @computed get showClearBtn() {
-    return todoStore.todos.filter(todo => todo.completed).length > 0;
+    return this.todoStore.todoList.filter(todo => todo.completed).length > 0;
   }
 
-  clearCompleted() {
-    todoStore.removeCompleted();
+  @action
+  public handleFilterChanged(filter: Filter) {
+    this.todoStore.changeFilter(filter);
+  }
+
+  @action
+  public clearCompleted() {
+    this.todoStore.removeCompleted();
   }
 }

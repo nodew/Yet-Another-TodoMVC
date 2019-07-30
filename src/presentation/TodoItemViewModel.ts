@@ -1,8 +1,8 @@
-import { observable, action } from 'mobx';
+import { inject, injectable } from 'inversify';
+import { action, observable } from 'mobx';
 import TodoItem, { ITodoItem } from '../core/domain/TodoItem';
-import todoStore from '../core/store/todoStore';
-import db from '../common/database';
-import history from '../common/history';
+import TodoStore from '../core/store/todoStore';
+import { TYPES } from '../types';
 
 export interface ITodoItemViewModel {
   todoItem: TodoItem
@@ -19,48 +19,38 @@ export default class TodoItemViewModel implements ITodoItemViewModel {
   @observable public todoItem: TodoItem;
   @observable public editing: boolean;
   @observable public editText: string;
+  private todoStore: TodoStore;
 
-  constructor(todoItem: TodoItem) {
+  constructor(todoItem: TodoItem, todoStore: TodoStore) {
     this.todoItem = todoItem;
+    this.todoStore = todoStore;
     this.editing = false;
     this.editText = todoItem.title;
   }
 
   @action
-  toggleTodo() {
-    db.get(this.todoItem.uuid).then(todo => {
-      if (todo) {
-        todo.completed = !todo.completed;
-        db.set(this.todoItem.uuid, todo);
-        this.todoItem.toggleCompleted();
-      }
-    })
+  public toggleTodo() {
+    this.todoStore.toggleTodo(this.todoItem);
   }
 
   @action
-  deleteTodo() {
-    todoStore.deleteTodo(this.todoItem.uuid);
+  public deleteTodo() {
+    this.todoStore.deleteTodo(this.todoItem.uuid);
   }
 
   @action
-  toggleEditing(status: boolean) {
+  public toggleEditing(status: boolean) {
     this.editing = status;
   }
 
   @action
-  updateEditTxt(input: string) {
+  public updateEditTxt(input: string) {
     this.editText = input;
   }
 
   @action
-  updateTodo() {
+  public async updateTodo() {
+    await this.todoStore.updateTitle(this.todoItem, this.editText);
     this.toggleEditing(false);
-    db.get(this.todoItem.uuid).then(todo => {
-      if (todo) {
-        todo.title = this.editText;
-        db.set(this.todoItem.uuid, todo);
-        this.todoItem.updateTitle(this.editText);
-      }
-    });
   }
 }

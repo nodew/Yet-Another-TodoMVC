@@ -1,40 +1,35 @@
-import { observable, action, computed } from 'mobx';
+import { inject, injectable } from 'inversify';
+import { computed } from 'mobx';
+import TodoStore, { Filter } from '../core/store/todoStore';
+import { TYPES } from '../types';
 import TodoItemViewModel, { ITodoItemViewModel } from './TodoItemViewModel';
-import { IAppViewModel } from './AppViewModel';
-import todoStore from '../core/store/todoStore';
 import TodoItem from '../core/domain/TodoItem';
 
+
 export interface ITodoListViewModel {
-  appVm: IAppViewModel;
-  todos: TodoItem[];
-  todoVms: ITodoItemViewModel[];
+  todoList: TodoItem[];
+  todoItemViewModels: ITodoItemViewModel[];
 }
 
+@injectable()
 export default class TodoListViewModel implements ITodoListViewModel {
-  appVm: IAppViewModel;
+  @inject(TYPES.TodoStore)
+  private todoStore!: TodoStore;
 
-  constructor(appVm: IAppViewModel) {
-    this.appVm = appVm;
-  }
-
-  @computed get selected() {
-    return this.appVm.selected;
-  }
-
-  @computed get todos() {
-    switch (this.selected) {
-      case 'ACTIVE':
-        return todoStore.todos.filter(todo => !todo.completed);
-      case 'COMPLETED':
-        return todoStore.todos.filter(todo => todo.completed);
+  @computed get todoList() {
+    switch (this.todoStore.filter) {
+      case Filter.ACTIVE:
+        return this.todoStore.todoList.filter(todo => !todo.completed);
+      case Filter.COMPLETED:
+        return this.todoStore.todoList.filter(todo => todo.completed);
+      case Filter.ALL:
+        return this.todoStore.todoList;
       default:
-        return todoStore.todos;
+        return [];
     }
   }
 
-  @computed get todoVms() {
-    return this.todos
-      .sort((a, b) => b.createdAt - a.createdAt)
-      .map((todo) => new TodoItemViewModel(todo));
+  @computed get todoItemViewModels() {
+    return this.todoList.map(item => new TodoItemViewModel(item, this.todoStore))
   }
 }

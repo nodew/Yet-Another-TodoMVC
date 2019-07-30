@@ -1,37 +1,35 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
 import classNames from 'classnames';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import { ITodoFooterViewModel } from '../../presentation/TodoFooterViewModel';
-import IViewModel from '../../presentation/IViewModel';
-import history from '../../common/history';
+import { IViewFor } from './IViewFor';
+import { Filter } from '../../core/store/todoStore';
 
 @observer
-export default class TodoFooter extends React.Component<IViewModel<ITodoFooterViewModel>> {
-  handleSelect = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+export default class TodoFooter extends React.Component<IViewFor<ITodoFooterViewModel>> {
+  public handleSelect = (e: React.MouseEvent<HTMLAnchorElement>, filter: Filter) => {
     e.preventDefault();
-    history.push(url);
+    this.props.viewModel.handleFilterChanged(filter);
   }
 
-  renderItem(url: string, type: string, text: string) {
-    const { vm } = this.props;
-    const selected = vm.selected === type;
+  public renderItem(filter: Filter, text: string) {
+    const selected = this.props.viewModel.filter === filter;
     const clx = classNames({ selected });
     return (
       <li>
-        <a onClick={(e) => this.handleSelect(e, url)} className={clx} >
+        <a onClick={(e) => this.handleSelect(e, filter)} className={clx} >
           {text}
         </a>
       </li>
     );
   }
 
-  renderClearBtn() {
-    const { vm } = this.props;
-    if (vm.showClearBtn) {
+  public renderClearBtn() {
+    if (this.props.viewModel.showClearBtn) {
       return (
         <button
           className="clear-completed"
-          onClick={() => vm.clearCompleted()}
+          onClick={() => this.props.viewModel.clearCompleted()}
         >
           Clear completed
         </button>
@@ -40,17 +38,16 @@ export default class TodoFooter extends React.Component<IViewModel<ITodoFooterVi
     return null;
   }
 
-  render() {
-    const { vm } = this.props;
+  public render() {
     return (
       <footer className="footer">
           <span className="todo-count">
-            <strong>{vm.count}</strong> item{vm.count > 1 ? 's': ''}
+            <strong>{this.props.viewModel.count}</strong> item{this.props.viewModel.count > 1 ? 's': ''}
           </span>
           <ul className="filters">
-            {this.renderItem('#/', 'ALL', 'All')}
-            {this.renderItem('#/active', 'ACTIVE', 'Active')}
-            {this.renderItem('#/completed', 'COMPLETED', 'Completed')}
+            {this.renderItem(Filter.ALL, 'All')}
+            {this.renderItem(Filter.ACTIVE, 'Active')}
+            {this.renderItem(Filter.COMPLETED, 'Completed')}
           </ul>
           {this.renderClearBtn()}
         </footer>

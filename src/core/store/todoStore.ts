@@ -1,48 +1,83 @@
-import { observable, action, runInAction } from 'mobx';
+import { inject, injectable } from "inversify";
+import { action, observable, runInAction } from 'mobx';
+import { TYPES } from '../../types';
 import TodoItem from '../domain/TodoItem';
-import db from '../../common/database';
+import ITodoRepository from '../repository/ITodoRepository';
+import { ObservableArray } from "mobx/lib/internal";
 
+export enum Filter {
+  ALL = "ALL",
+  ACTIVE = "ACTIVE",
+  COMPLETED = "COMPLETED"
+}
+
+@injectable()
 class TodoStore {
-  @observable public todos: TodoItem[];
+  private todoRepository: ITodoRepository;
 
-  constructor() {
-    this.todos = [];
-    this.getTodosFromDB();
+  @observable public todoList: TodoItem[];
+  @observable public filter: Filter;
+
+  constructor(
+    @inject(TYPES.TodoRepository) todoRepository: ITodoRepository
+  ) {
+    this.todoRepository = todoRepository;
+    this.todoList = [];
+    this.filter = Filter.ALL;
+    this.init();
   }
 
-  getTodosFromDB() {
-    db.getAll().then(todos => {
-      runInAction(() => {
-        this.todos = todos.map((todo) => TodoItem.fromJS(todo));
-      });
+  @action
+  public async init() {
+    const todoList = await this.todoRepository.getTodoList();
+    runInAction(() => {
+      this.todoList = todoList;
     });
   }
 
-  addTodo(title: string) {
-    const newTodo = new TodoItem(title);
-    db.set(newTodo.uuid, newTodo).then(() => {
-      runInAction(() => {
-        this.todos.push(newTodo);
-      });
+  @action
+  public async addTodo(title: string) {
+    const todo = await this.todoRepository.addTodo(title);
+    runInAction(() => {
+      this.todoList.unshift(todo);
     });
   }
 
-  deleteTodo(uuid: string) {
-    db.delete(uuid).then(() => {
-      runInAction(() => {
-        this.todos = this.todos.filter(todo => todo.uuid !== uuid);
-      });
+  @action
+  public async updateTitle(item: TodoItem, title: string) {
+    await this.todoRepository.updateTodoTitle(item, title);
+  }
+
+  @action
+  public async completeTodo(item: TodoItem) {
+    await this.todoRepository.toggleTodoItem(item);
+  }
+
+  @action
+  public async toggleTodo(item: TodoItem) {
+    await this.todoRepository.toggleTodoItem(item);
+  }
+
+  @action
+  public async deleteTodo(uuid: string) {
+    await this.todoRepository.deleteTodo(uuid);
+    runInAction(() => {
+      this.todoList = this.todoList.filter(item => item.uuid !== uuid)
+    })
+  }
+
+  @action
+  public async removeCompleted() {
+    const todoList = await this.todoRepository.removeAllCompletedItem();
+    runInAction(() => {
+      this.todoList = todoList;
     });
   }
 
-  removeCompleted() {
-    const completedTodos = this.todos.filter(todo => todo.completed);
-    Promise.all(completedTodos.map(todo => db.delete(todo.uuid))).then(() => {
-      runInAction(() => {
-        this.todos = this.todos.filter(todo => !todo.completed);
-      });
-    });
+  @action
+  public changeFilter(filter: Filter) {
+    this.filter = filter;
   }
 }
 
-export default new TodoStore();
+export default TodoStore;
