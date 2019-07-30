@@ -1,6 +1,6 @@
 
+import { action, observable } from 'mobx';
 import uuidGenerator from '../../utils/uuidGenerator';
-import { observable, action } from 'mobx';
 
 export interface ITodoItem {
   title: string;

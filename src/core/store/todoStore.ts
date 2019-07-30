@@ -3,7 +3,6 @@ import { action, observable, runInAction } from 'mobx';
 import { TYPES } from '../../types';
 import TodoItem from '../domain/TodoItem';
 import ITodoRepository from '../repository/ITodoRepository';
-import { ObservableArray } from "mobx/lib/internal";
 
 export enum Filter {
   ALL = "ALL",
@@ -13,10 +12,10 @@ export enum Filter {
 
 @injectable()
 class TodoStore {
-  private todoRepository: ITodoRepository;
 
   @observable public todoList: TodoItem[];
   @observable public filter: Filter;
+  private todoRepository: ITodoRepository;
 
   constructor(
     @inject(TYPES.TodoRepository) todoRepository: ITodoRepository

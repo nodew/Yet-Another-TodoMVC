@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { computed, action } from 'mobx';
+import { action, computed } from 'mobx';
 import TodoStore, { Filter } from '../core/store/todoStore';
 import { TYPES } from '../types';
 import { ITodoListViewModel } from './TodoListViewModel';

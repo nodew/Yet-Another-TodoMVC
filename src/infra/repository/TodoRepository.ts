@@ -1,7 +1,7 @@
+import { injectable } from "inversify";
 import TodoItem from "../../core/domain/TodoItem";
 import ITodoRepository from "../../core/repository/ITodoRepository";
 import storage from "../storage";
-import { injectable } from "inversify";
 
 @injectable()
 export default class TodoRepository implements ITodoRepository {

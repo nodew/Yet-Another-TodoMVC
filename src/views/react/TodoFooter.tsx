@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { Filter } from '../../core/store/todoStore';
 import { ITodoFooterViewModel } from '../../presentation/TodoFooterViewModel';
 import { IViewFor } from './IViewFor';
-import { Filter } from '../../core/store/todoStore';
 
 @observer
 export default class TodoFooter extends React.Component<IViewFor<ITodoFooterViewModel>> {

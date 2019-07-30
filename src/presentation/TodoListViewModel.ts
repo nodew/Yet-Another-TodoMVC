@@ -1,10 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { computed } from 'mobx';
+import TodoItem from '../core/domain/TodoItem';
 import TodoStore, { Filter } from '../core/store/todoStore';
 import { TYPES } from '../types';
 import TodoItemViewModel, { ITodoItemViewModel } from './TodoItemViewModel';
-import TodoItem from '../core/domain/TodoItem';
-
 
 export interface ITodoListViewModel {
   todoList: TodoItem[];
