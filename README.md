@@ -3,5 +3,5 @@
 ## Start dev
 
 ```shell
-npm run dev
+npm run dev:react
 ```

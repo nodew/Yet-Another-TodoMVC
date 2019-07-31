@@ -14,7 +14,7 @@
   "homepage": "https://github.com/nodew/Yet-Another-TodoMVC#readme",
   "description": "",
   "scripts": {
-    "dev:react": "concurrently \"parcel watch ./src/views/react/index.html \" \"parcel serve ./src/views/react/index.html\"",
+    "dev:react": "concurrently \"parcel watch ./src/application/react/index.html \" \"parcel serve ./src/application/react/index.html\"",
     "tslint": "tslint --project ./tsconfig.json --fix"
   },
   "dependencies": {

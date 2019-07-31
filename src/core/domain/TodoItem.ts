@@ -1,4 +1,3 @@
-
 import { action, observable } from 'mobx';
 import uuidGenerator from '../../utils/uuidGenerator';
 

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { IAppViewModel } from '../../presentation/AppViewModel';
-import { IViewFor } from './IViewFor';
+import { IAppViewModel } from '../../../presentation/AppViewModel';
+import { IViewFor } from '../IViewFor';
 import TodoFooter from './TodoFooter';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
