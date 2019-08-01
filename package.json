@@ -15,6 +15,7 @@
   "description": "",
   "scripts": {
     "dev:react": "concurrently \"parcel watch ./src/application/react/index.html \" \"parcel serve ./src/application/react/index.html\"",
+    "dev:vue": "concurrently \"parcel watch ./src/application/vue/index.html \" \"parcel serve ./src/application/vue/index.html\"",
     "tslint": "tslint --project ./tsconfig.json --fix"
   },
   "dependencies": {
@@ -25,20 +26,26 @@
     "inversify": "^5.0.1",
     "mobx": "^4.2.1",
     "mobx-react": "^5.1.2",
+    "mobx-vue": "^2.0.9",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.1.0"
   },
   "devDependencies": {
     "@types/history": "^4.6.2",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
+    "@vue/component-compiler-utils": "^3.0.0",
     "concurrently": "^3.5.1",
     "parcel": "^1.8.1",
     "prettier": "^1.18.2",
     "stylus": "^0.54.5",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-template-compiler": "^2.6.10"
   }
 }
