@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es7",
+      "dom"
+    ],
+    "allowJs": true,
+    "jsx": "react",
+    "strict": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/renderer"
+    ],
+    "types": [
+      "reflect-metadata",
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "./build/*.js"
+  ]
+}
