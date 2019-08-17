@@ -17,8 +17,8 @@
     "dev:react": "concurrently \"parcel watch ./src/application/react/react.html \" \"parcel serve ./src/application/react/react.html\"",
     "dev:vue": "concurrently \"parcel watch ./src/application/vue/vue.html \" \"parcel serve ./src/application/vue/vue.html\"",
     "dev:electron": "cd ./src/application/electron && npm start",
-    "build:react": "parcel build ./src/application/react/react.html -d ./docs --no-source-maps",
-    "build:vue": "parcel build ./src/application/vue/vue.html -d ./docs --no-source-maps",
+    "build:react": "parcel build ./src/application/react/react.html -d ./docs --no-source-maps --public-url /Yet-Another-TodoMVC/",
+    "build:vue": "parcel build ./src/application/vue/vue.html -d ./docs --no-source-maps --public-url /Yet-Another-TodoMVC/",
     "build": "npm run clean:docs && npm run build:react && npm run build:vue",
     "clean:docs": "cleandir docs",
     "tslint": "tslint --project ./tsconfig.json --fix"
