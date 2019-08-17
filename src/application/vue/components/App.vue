@@ -30,13 +30,13 @@ import TodoList from "./TodoList.vue";
 import TodoFooter from "./TodoFooter.vue";
 import { TYPES } from '../../../types';
 import { IAppViewModel } from '../../../presentation/AppViewModel';
-import { Observer } from 'mobx-vue';
+import { observer } from 'mobx-vue';
 
 const appViewModel = container.get<IAppViewModel>(TYPES.AppViewModel);
 
 console.log(appViewModel);
 
-@Observer
+@observer
 @Component({
   components: {
     "todo-input": TodoInput,

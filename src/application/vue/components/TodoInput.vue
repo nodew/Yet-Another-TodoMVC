@@ -11,10 +11,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import { Observer } from 'mobx-vue';
+import { observer } from 'mobx-vue';
 import { ITodoInputViewModel } from "../../../presentation/TodoInputViewModel";
 
-@Observer
+@observer
 @Component({
   props: {
     viewModel: {
@@ -24,7 +24,6 @@ import { ITodoInputViewModel } from "../../../presentation/TodoInputViewModel";
 })
 export default class TodoInput extends Vue {
   handleInputChange(value: string) {
-    debugger
     this.$props.viewModel.updateInput(value)
   }
 

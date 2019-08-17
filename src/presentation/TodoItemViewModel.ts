@@ -1,8 +1,6 @@
-import { inject, injectable } from 'inversify';
 import { action, observable } from 'mobx';
-import TodoItem, { ITodoItem } from '../core/domain/TodoItem';
+import TodoItem from '../core/domain/TodoItem';
 import TodoStore from '../core/store/todoStore';
-import { TYPES } from '../types';
 
 export interface ITodoItemViewModel {
   todoItem: TodoItem

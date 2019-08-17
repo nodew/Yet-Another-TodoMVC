@@ -1,5 +1,5 @@
 <template>
-  <li :class="className">
+  <li :class="{ completed: viewModel.todoItem.completed, editing: viewModel.editing }">
     <div class="view">
       <input
         class="toggle"
@@ -23,12 +23,12 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { Observer } from 'mobx-vue';
+import { observer } from 'mobx-vue';
 import Component from 'vue-class-component';
 import classnames from "classnames";
 import { ITodoItemViewModel } from '../../../presentation/TodoItemViewModel';
 
-@Observer
+@observer
 @Component({
    props: {
     viewModel: {
@@ -37,13 +37,6 @@ import { ITodoItemViewModel } from '../../../presentation/TodoItemViewModel';
   }
 })
 export default class TodoItem extends Vue {
-  get className() {
-    return classnames({
-        completed: this.$props.viewModel.completed,
-        editing: this.$props.viewModel.editing
-    })
-  }
-
   toggleTodo() {
     this.$props.viewModel.toggleTodo()
   }

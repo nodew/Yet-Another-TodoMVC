@@ -2,9 +2,9 @@ import { inject, injectable } from 'inversify';
 import { action, computed } from 'mobx';
 import TodoStore from '../core/store/todoStore';
 import { TYPES } from '../types';
-import TodoFooterViewModel, { ITodoFooterViewModel } from './TodoFooterViewModel';
-import TodoInputViewModel, { ITodoInputViewModel } from './TodoInputViewModel';
-import TodoListViewModel, { ITodoListViewModel } from './TodoListViewModel';
+import { ITodoFooterViewModel } from './TodoFooterViewModel';
+import { ITodoInputViewModel } from './TodoInputViewModel';
+import { ITodoListViewModel } from './TodoListViewModel';
 
 export interface IAppViewModel {
   todoListViewModel: ITodoListViewModel;

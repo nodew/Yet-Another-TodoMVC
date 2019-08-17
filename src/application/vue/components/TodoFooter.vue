@@ -22,12 +22,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Observer } from 'mobx-vue';
+import { observer } from 'mobx-vue';
 import Component from 'vue-class-component';
 import { ITodoFooterViewModel } from '../../../presentation/TodoFooterViewModel';
 import { Filter } from '../../../core/store/todoStore';
 
-@Observer
+@observer
 @Component({
   props: {
     viewModel: {

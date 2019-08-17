@@ -10,12 +10,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Observer } from 'mobx-vue';
+import { observer } from 'mobx-vue';
 import Component from 'vue-class-component';
 import TodoItem from './TodoItem.vue';
 import { ITodoListViewModel } from '../../../presentation/TodoListViewModel';
 
-@Observer
+@observer
 @Component({
   components: {
     "todo-item": TodoItem
