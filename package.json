@@ -14,9 +14,13 @@
   "homepage": "https://github.com/nodew/Yet-Another-TodoMVC#readme",
   "description": "",
   "scripts": {
-    "dev:react": "concurrently \"parcel watch ./src/application/react/index.html \" \"parcel serve ./src/application/react/index.html\"",
-    "dev:vue": "concurrently \"parcel watch ./src/application/vue/index.html \" \"parcel serve ./src/application/vue/index.html\"",
+    "dev:react": "concurrently \"parcel watch ./src/application/react/react.html \" \"parcel serve ./src/application/react/react.html\"",
+    "dev:vue": "concurrently \"parcel watch ./src/application/vue/vue.html \" \"parcel serve ./src/application/vue/vue.html\"",
     "dev:electron": "cd ./src/application/electron && npm start",
+    "build:react": "parcel build ./src/application/react/react.html -d ./docs --no-source-maps",
+    "build:vue": "parcel build ./src/application/vue/vue.html -d ./docs --no-source-maps",
+    "build": "npm run clean:docs && npm run build:react && npm run build:vue",
+    "clean:docs": "cleandir docs",
     "tslint": "tslint --project ./tsconfig.json --fix"
   },
   "dependencies": {
@@ -39,6 +43,7 @@
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
     "@vue/component-compiler-utils": "^3.0.0",
+    "clean-dir": "^1.0.3",
     "concurrently": "^3.5.1",
     "parcel": "^1.8.1",
     "prettier": "^1.18.2",
